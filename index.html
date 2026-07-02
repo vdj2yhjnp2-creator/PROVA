@@ -856,8 +856,7 @@
       screens[name].classList.add('active');
       render();
       window.scrollTo({ top: 0, behavior: 'smooth' });
-      if (name === 'charts') setTimeout(() => { if (entriesChart) entriesChart.resize(); if (paymentsChart) paymentsChart.resize(); if (document.getElementById('avgSpendChart')?.chartInstance) document.getElementById('avgSpendChart').chartInstance.resize(); }, 120);
-    }
+    if (name === 'charts') setTimeout(() => { if (entriesChart) entriesChart.resize(); if (paymentsChart) paymentsChart.resize(); if (document.getElementById('avgSpendChart')?.chartInstance) document.getElementById('avgSpendChart').chartInstance.resize(); }, 250);
 
     /* INIT + EVENT LISTENERS */
     function init() {
