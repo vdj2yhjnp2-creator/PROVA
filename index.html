@@ -35,6 +35,7 @@
       --male: #0a84ff;
       --female: #ff375f;
       --cash: #34c759;
+      --danger: #ff3b30;
       --radius: 28px;
       --font: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
     }
@@ -57,7 +58,7 @@
     .screen.active { display: grid; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-    .hero, .card {
+    .hero, .card, .history-item {
       background: var(--surface);
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
@@ -82,7 +83,7 @@
 
     label { display: block; font-size: var(--text-xs); color: var(--text-muted); margin-bottom: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; }
 
-    input[type="date"], input[type="number"] {
+    input[type="date"], input[type="number"], input[type="text"] {
       width: 100%;
       border: 1px solid var(--border-strong);
       background: #fff;
@@ -108,7 +109,8 @@
     .section-title p { color: var(--text-muted); font-size: var(--text-sm); }
 
     .button-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3); }
-    .action-btn, .long-btn, .secondary-btn, .small-btn, .primary-btn, .radio-btn {
+
+    .action-btn, .long-btn, .secondary-btn, .small-btn, .primary-btn, .radio-btn, .ghost-btn {
       border: 1px solid var(--border);
       background: #fff;
       color: var(--text);
@@ -118,7 +120,7 @@
       box-shadow: var(--shadow-card);
     }
 
-    .action-btn:active, .long-btn:active, .secondary-btn:active, .small-btn:active, .primary-btn:active, .radio-btn:active { transform: scale(.985); }
+    .action-btn:active, .long-btn:active, .secondary-btn:active, .small-btn:active, .primary-btn:active, .radio-btn:active, .ghost-btn:active { transform: scale(.985); }
 
     .action-btn {
       min-height: 128px;
@@ -132,7 +134,7 @@
       z-index: 1;
     }
 
-    .action-btn .mini, .long-btn .mini {
+    .action-btn .mini, .long-btn .mini, .ghost-btn .mini {
       display: block;
       font-size: var(--text-xs);
       color: var(--text-muted);
@@ -142,7 +144,7 @@
       font-weight: 700;
     }
 
-    .action-btn .title, .long-btn .title {
+    .action-btn .title, .long-btn .title, .ghost-btn .title {
       display: block;
       font-size: 1.18rem;
       font-weight: 800;
@@ -150,12 +152,12 @@
       margin-bottom: 6px;
     }
 
-    .action-btn .hint, .long-btn .hint { color: var(--text-muted); font-size: var(--text-sm); line-height: 1.45; }
+    .action-btn .hint, .long-btn .hint, .ghost-btn .hint { color: var(--text-muted); font-size: var(--text-sm); line-height: 1.45; }
     .male-btn { background: linear-gradient(180deg, rgba(10,132,255,0.12), rgba(255,255,255,0.99)); }
     .female-btn { background: linear-gradient(180deg, rgba(255,55,95,0.11), rgba(255,255,255,0.99)); }
     .pay-btn { background: linear-gradient(180deg, rgba(52,199,89,0.10), rgba(255,255,255,0.99)); }
 
-    .long-btn {
+    .long-btn, .ghost-btn {
       width: 100%;
       min-height: 76px;
       border-radius: 24px;
@@ -165,11 +167,14 @@
       align-items: center;
       justify-content: space-between;
       gap: 14px;
-      background: linear-gradient(180deg, rgba(0,113,227,0.08), rgba(255,255,255,0.99));
     }
 
-    .summary-box, .endday-box { display: grid; gap: var(--space-3); }
-    .summary-line {
+    .long-btn { background: linear-gradient(180deg, rgba(0,113,227,0.08), rgba(255,255,255,0.99)); }
+    .ghost-btn { background: linear-gradient(180deg, rgba(255,255,255,0.99), rgba(255,255,255,0.92)); }
+
+    .summary-box, .endday-box, .history-list { display: grid; gap: var(--space-3); }
+
+    .summary-line, .history-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -180,7 +185,11 @@
       border: 1px solid var(--border);
       font-size: var(--text-sm);
     }
-    .summary-line strong { font-variant-numeric: tabular-nums; }
+
+    .summary-line strong, .history-item strong { font-variant-numeric: tabular-nums; }
+    .history-meta { display:grid; gap:4px; }
+    .history-meta small { color: var(--text-muted); }
+    .history-actions { display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
 
     .callout {
       padding: 18px;
@@ -190,21 +199,24 @@
       display: grid;
       gap: 12px;
     }
-    .callout p { color: var(--text-muted); font-size: var(--text-sm); line-height: 1.5; }
 
+    .callout p { color: var(--text-muted); font-size: var(--text-sm); line-height: 1.5; }
     .history-tools { display: grid; grid-template-columns: 1fr auto auto; gap: 10px; align-items: end; }
-    .small-btn, .secondary-btn, .primary-btn {
+
+    .small-btn, .secondary-btn, .primary-btn, .ghost-btn {
       min-height: 52px;
       border-radius: 18px;
       padding: 0 18px;
       font-size: var(--text-sm);
       font-weight: 700;
     }
+
     .primary-btn { background: var(--accent); color: #fff; border-color: transparent; }
     .secondary-btn { background: #fff; }
-    .small-btn.danger { color: #b42318; background: rgba(255,255,255,0.95); }
+    .small-btn.danger, .danger-btn { color: #b42318; background: rgba(255,255,255,0.95); }
 
     .charts { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-4); }
+
     .chart-card {
       background: var(--surface-strong);
       border: 1px solid var(--border);
@@ -215,8 +227,8 @@
       flex-direction: column;
       gap: 12px;
     }
-    .chart-wrap { position: relative; flex: 1; min-height: 220px; }
 
+    .chart-wrap { position: relative; flex: 1; min-height: 220px; }
     .footer-note { color: var(--text-muted); font-size: var(--text-xs); text-align: center; padding-top: 2px; }
     .home-main, .summary-main { display: grid; gap: var(--space-4); }
 
@@ -240,7 +252,9 @@
       padding: 16px;
       z-index: 50;
     }
+
     .modal.open { display: flex; }
+
     .sheet {
       width: min(560px, 100%);
       background: rgba(255,255,255,0.99);
@@ -252,10 +266,12 @@
       max-height: 92vh;
       overflow: auto;
     }
+
     .grabber { width: 48px; height: 5px; border-radius: 999px; background: rgba(0,0,0,0.12); margin: 0 auto 6px; }
     .sheet h3 { font-size: 1.25rem; letter-spacing: -0.03em; }
     .field { display: grid; gap: 8px; }
     .radio-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+
     .radio-btn {
       border: 1px solid var(--border-strong);
       background: #fff;
@@ -265,6 +281,7 @@
       min-height: 52px;
       cursor: pointer;
     }
+
     .radio-btn.active { border-color: rgba(0,113,227,0.4); background: rgba(0,113,227,0.08); color: #0057b8; }
     .sheet-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 6px; }
 
@@ -272,6 +289,7 @@
       .stats, .charts { grid-template-columns: repeat(2, 1fr); }
       .charts { grid-template-columns: 1fr; }
     }
+
     @media (max-width: 640px) {
       .hero, .card { border-radius: 24px; }
       .history-tools, .sheet-actions { grid-template-columns: 1fr; }
@@ -281,6 +299,8 @@
       .date-box { width: 100%; }
       .hero-top, .section-title, .long-btn { flex-direction: column; align-items: flex-start; }
       .long-btn { justify-content: flex-start; }
+      .history-item { flex-direction: column; align-items: flex-start; }
+      .history-actions { width: 100%; justify-content: flex-start; }
     }
   </style>
 </head>
@@ -345,6 +365,25 @@
             </div>
             <strong style="font-size:1.1rem; color:var(--accent);">Apri</strong>
           </button>
+          <button class="long-btn" id="goHistoryBtn" type="button" style="margin-top:12px;">
+            <div>
+              <span class="mini">Storico</span>
+              <span class="title">Cronologia</span>
+              <span class="hint">Vedi tutti gli scontrini e puoi modificarli o annullarli</span>
+            </div>
+            <strong style="font-size:1.1rem; color:var(--accent);">Apri</strong>
+          </button>
+        </section>
+
+        <section class="card">
+          <div class="section-title">
+            <div>
+              <h2>Cronologia rapida</h2>
+              <p>Ultimi scontrini del giorno selezionato.</p>
+            </div>
+            <button class="secondary-btn" id="goHistoryBtnHome" type="button">Cronologia</button>
+          </div>
+          <div class="history-list" id="homeRecentHistory"></div>
         </section>
       </div>
     </section>
@@ -408,6 +447,32 @@
       </div>
     </section>
 
+    <section class="screen" id="screenHistory">
+      <div class="hero">
+        <div class="hero-top">
+          <div>
+            <div class="eyebrow">Cronologia scontrini</div>
+            <h1>Movimenti pagamenti</h1>
+            <p class="sub">Qui trovi tutti gli scontrini del giorno selezionato, con possibilità di modificare importo, capi o metodo, oppure annullarli.</p>
+          </div>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <button class="secondary-btn" id="backSummaryFromHistoryBtn" type="button">Riepilogo</button>
+          </div>
+        </div>
+      </div>
+
+      <section class="card">
+        <div class="section-title">
+          <div>
+            <h2>Elenco scontrini</h2>
+            <p>Ogni pagamento registrato compare qui in ordine di inserimento.</p>
+          </div>
+          <strong id="historyCount">0 scontrini</strong>
+        </div>
+        <div class="history-list" id="historyList"></div>
+      </section>
+    </section>
+
     <section class="screen" id="screenCharts">
       <div class="hero">
         <div class="hero-top">
@@ -426,6 +491,7 @@
             <h2>Grafici e medie</h2>
             <p>Percentuali e indicatori del giorno selezionato.</p>
           </div>
+          <button class="secondary-btn" id="openHistoryBtnCharts" type="button">Cronologia</button>
         </div>
         <div class="charts">
           <div class="chart-card">
@@ -482,31 +548,68 @@
     </div>
   </div>
 
+  <div class="modal" id="editModal" aria-hidden="true">
+    <div class="sheet">
+      <div class="grabber"></div>
+      <h3>Modifica scontrino</h3>
+      <div class="field">
+        <label for="editAmountInput">Importo pagato</label>
+        <input id="editAmountInput" type="number" inputmode="decimal" min="0" step="0.01" />
+      </div>
+      <div class="field">
+        <label for="editItemsInput">Numero di capi</label>
+        <input id="editItemsInput" type="number" inputmode="numeric" min="1" step="1" />
+      </div>
+      <div class="field">
+        <label>Metodo di pagamento</label>
+        <div class="radio-row">
+          <button class="radio-btn active" id="editCardBtn" type="button">Carta</button>
+          <button class="radio-btn" id="editCashBtn" type="button">Contanti</button>
+        </div>
+      </div>
+      <div class="sheet-actions">
+        <button class="secondary-btn" id="cancelEditBtn" type="button">Annulla</button>
+        <button class="primary-btn" id="saveEditBtn" type="button">Salva modifiche</button>
+      </div>
+    </div>
+  </div>
+
   <script>
-    const STORAGE_KEY = 'negozio_abbigliamento_tracker_v4';
+    const STORAGE_KEY = 'negozio_abbigliamento_tracker_v5';
     const today = new Date();
     const selectedDateInput = document.getElementById('selectedDate');
     const historyDateInput = document.getElementById('historyDate');
     const summaryBox = document.getElementById('summaryBox');
     const endDayBox = document.getElementById('endDayBox');
+    const homeRecentHistory = document.getElementById('homeRecentHistory');
+    const historyList = document.getElementById('historyList');
+    const historyCount = document.getElementById('historyCount');
     const paymentModal = document.getElementById('paymentModal');
+    const editModal = document.getElementById('editModal');
     const modalTitle = document.getElementById('modalTitle');
     const amountInput = document.getElementById('amountInput');
     const itemsInput = document.getElementById('itemsInput');
+    const editAmountInput = document.getElementById('editAmountInput');
+    const editItemsInput = document.getElementById('editItemsInput');
     const savePaymentBtn = document.getElementById('savePaymentBtn');
     const closeModalBtn = document.getElementById('closeModalBtn');
-    const radioButtons = Array.from(document.querySelectorAll('.radio-btn'));
+    const saveEditBtn = document.getElementById('saveEditBtn');
+    const cancelEditBtn = document.getElementById('cancelEditBtn');
+    const radioButtons = Array.from(document.querySelectorAll('#paymentModal .radio-btn'));
+    const editCardBtn = document.getElementById('editCardBtn');
+    const editCashBtn = document.getElementById('editCashBtn');
     const screens = {
       home: document.getElementById('screenHome'),
       summary: document.getElementById('screenSummary'),
+      history: document.getElementById('screenHistory'),
       charts: document.getElementById('screenCharts')
     };
 
     let activeCategory = 'uomo';
     let activeMethod = 'card';
-    let entriesChart;
-    let paymentsChart;
-    let avgChart;
+    let editMethod = 'card';
+    let editTarget = null;
+    let entriesChart, paymentsChart, avgChart;
 
     function showScreen(name) {
       Object.values(screens).forEach(screen => screen.classList.remove('active'));
@@ -541,8 +644,8 @@
       return {
         entries: { uomo: 0, donna: 0 },
         payments: {
-          uomo: { total: 0, card: 0, cash: 0, transactions: 0, items: 0 },
-          donna: { total: 0, card: 0, cash: 0, transactions: 0, items: 0 }
+          uomo: { total: 0, card: 0, cash: 0, transactions: 0, items: 0, receipts: [] },
+          donna: { total: 0, card: 0, cash: 0, transactions: 0, items: 0, receipts: [] }
         },
         updatedAt: new Date().toISOString(),
         finalized: false
@@ -551,7 +654,11 @@
 
     function getDay(store, date) {
       if (!store.days[date]) store.days[date] = emptyDay();
-      return store.days[date];
+      const day = store.days[date];
+      day.payments = day.payments || emptyDay().payments;
+      day.payments.uomo.receipts = day.payments.uomo.receipts || [];
+      day.payments.donna.receipts = day.payments.donna.receipts || [];
+      return day;
     }
 
     function updateDay(mutator) {
@@ -559,7 +666,7 @@
       const date = selectedDateInput.value;
       if (!date) return;
       const day = getDay(store, date);
-      mutator(day);
+      mutator(day, store);
       day.updatedAt = new Date().toISOString();
       saveStore(store);
       render();
@@ -593,10 +700,21 @@
       if (!amount || amount <= 0) { alert('Inserisci un importo valido.'); amountInput.focus(); return; }
       if (!items || items <= 0) { alert('Inserisci un numero di capi valido.'); itemsInput.focus(); return; }
       updateDay(day => {
-        day.payments[activeCategory].total += amount;
-        day.payments[activeCategory][activeMethod] += amount;
+        const receipt = {
+          id: `r_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
+          category: activeCategory,
+          amount: Number(amount.toFixed(2)),
+          items,
+          method: activeMethod,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          cancelled: false
+        };
+        day.payments[activeCategory].total += receipt.amount;
+        day.payments[activeCategory][activeMethod] += receipt.amount;
         day.payments[activeCategory].transactions += 1;
         day.payments[activeCategory].items += items;
+        day.payments[activeCategory].receipts.push(receipt);
         day.finalized = false;
       });
       closePaymentModal();
@@ -623,6 +741,13 @@
       return t.totalEntries > 0 ? t.totalRevenue / t.totalEntries : 0;
     }
 
+    function allReceiptsForDay(day) {
+      return [
+        ...day.payments.uomo.receipts.map(r => ({ ...r, category: 'uomo' })),
+        ...day.payments.donna.receipts.map(r => ({ ...r, category: 'donna' }))
+      ].filter(r => !r.cancelled).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    }
+
     function renderSummary(day) {
       const totals = dayTotals(day);
       summaryBox.innerHTML = `
@@ -640,7 +765,6 @@
         <div class="summary-line"><span>Capi donna</span><strong>${day.payments.donna.items}</strong></div>
         <div class="summary-line"><span>Capi totali</span><strong>${totals.totalItems}</strong></div>
       `;
-
       document.getElementById('statEntrateTot').textContent = totals.totalEntries;
       document.getElementById('statUomo').textContent = day.entries.uomo;
       document.getElementById('statDonna').textContent = day.entries.donna;
@@ -662,6 +786,37 @@
         <div class="summary-line"><span>Capi categorie</span><strong>Uomo ${day.payments.uomo.items} / Donna ${day.payments.donna.items}</strong></div>
         <div class="summary-line"><span>Metodi di pagamento</span><strong>Carta ${formatCurrency(totals.totalCard)} / Contanti ${formatCurrency(totals.totalCash)}</strong></div>
       `;
+    }
+
+    function renderHomeHistory(day) {
+      const list = allReceiptsForDay(day).slice(0, 4);
+      homeRecentHistory.innerHTML = list.length ? list.map(r => `
+        <div class="history-item">
+          <div class="history-meta">
+            <strong>${r.category.toUpperCase()} · ${formatCurrency(r.amount)}</strong>
+            <small>${r.items} capi · ${r.method === 'card' ? 'Carta' : 'Contanti'} · ${new Date(r.createdAt).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})}</small>
+          </div>
+          <small>${r.id.slice(-4)}</small>
+        </div>
+      `).join('') : `<div class="summary-line"><span>Nessuno scontrino ancora registrato</span><strong>—</strong></div>`;
+    }
+
+    function renderHistory(day) {
+      const receipts = allReceiptsForDay(day);
+      historyCount.textContent = `${receipts.length} scontrini`;
+      historyList.innerHTML = receipts.length ? receipts.map(r => `
+        <div class="history-item">
+          <div class="history-meta">
+            <strong>${r.category.toUpperCase()} · ${formatCurrency(r.amount)}</strong>
+            <small>${r.items} capi · ${r.method === 'card' ? 'Carta' : 'Contanti'} · ${new Date(r.createdAt).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})}</small>
+            <small>ID ${r.id.slice(-8)}</small>
+          </div>
+          <div class="history-actions">
+            <button class="small-btn" data-action="edit" data-id="${r.id}" data-cat="${r.category}">Modifica</button>
+            <button class="small-btn danger-btn" data-action="cancel" data-id="${r.id}" data-cat="${r.category}">Annulla</button>
+          </div>
+        </div>
+      `).join('') : `<div class="summary-line"><span>Nessuno scontrino nel giorno selezionato</span><strong>—</strong></div>`;
     }
 
     function createOrUpdateCharts(day) {
@@ -714,7 +869,6 @@
         paymentsChart.update();
       }
 
-      const avgSpendCanvas = document.getElementById('avgSpendChart');
       const labels = ['Spesa media persona', 'Capi medi persona'];
       const dataValues = [Number(avgSpend.toFixed(2)), Number(avgItems.toFixed(2))];
 
@@ -723,7 +877,7 @@
         avgChart.data.datasets[0].data = dataValues;
         avgChart.update();
       } else {
-        avgChart = new Chart(avgSpendCanvas, {
+        avgChart = new Chart(document.getElementById('avgSpendChart'), {
           type: 'bar',
           data: {
             labels,
@@ -750,15 +904,14 @@
       }
     }
 
-    function renderHistory() { return; }
-
     function render() {
       const store = loadStore();
       const day = getDay(store, selectedDateInput.value);
       saveStore(store);
       renderSummary(day);
+      renderHomeHistory(day);
+      renderHistory(day);
       createOrUpdateCharts(day);
-      renderHistory(store);
     }
 
     function resetCurrentDay() {
@@ -786,6 +939,93 @@
 
     function vibrate() { if (navigator.vibrate) navigator.vibrate(18); }
 
+    function findReceiptById(day, id) {
+      for (const category of ['uomo', 'donna']) {
+        const idx = day.payments[category].receipts.findIndex(r => r.id === id);
+        if (idx !== -1) return { category, idx, receipt: day.payments[category].receipts[idx] };
+      }
+      return null;
+    }
+
+    function openEditReceipt(id) {
+      const store = loadStore();
+      const day = getDay(store, selectedDateInput.value);
+      const found = findReceiptById(day, id);
+      if (!found) return;
+      editTarget = found;
+      editMethod = found.receipt.method || 'card';
+      editAmountInput.value = String(found.receipt.amount);
+      editItemsInput.value = String(found.receipt.items);
+      editCardBtn.classList.toggle('active', editMethod === 'card');
+      editCashBtn.classList.toggle('active', editMethod === 'cash');
+      editModal.classList.add('open');
+      editModal.setAttribute('aria-hidden', 'false');
+      setTimeout(() => editAmountInput.focus(), 60);
+    }
+
+    function closeEditModal() {
+      editModal.classList.remove('open');
+      editModal.setAttribute('aria-hidden', 'true');
+      editTarget = null;
+    }
+
+    function saveEditedReceipt() {
+      if (!editTarget) return;
+      const amount = parseFloat(String(editAmountInput.value).replace(',', '.'));
+      const items = parseInt(editItemsInput.value, 10);
+      if (!amount || amount <= 0) { alert('Inserisci un importo valido.'); editAmountInput.focus(); return; }
+      if (!items || items <= 0) { alert('Inserisci un numero di capi valido.'); editItemsInput.focus(); return; }
+
+      const store = loadStore();
+      const day = getDay(store, selectedDateInput.value);
+      const target = findReceiptById(day, editTarget.receipt.id);
+      if (!target) return;
+
+      const old = target.receipt;
+      const cat = target.category;
+
+      day.payments[cat].total -= old.amount;
+      day.payments[cat][old.method] -= old.amount;
+      day.payments[cat].items -= old.items;
+
+      const updated = {
+        ...old,
+        amount: Number(amount.toFixed(2)),
+        items,
+        method: editMethod,
+        updatedAt: new Date().toISOString()
+      };
+
+      day.payments[cat].total += updated.amount;
+      day.payments[cat][updated.method] += updated.amount;
+      day.payments[cat].items += updated.items;
+      day.payments[cat].receipts[target.idx] = updated;
+      day.updatedAt = new Date().toISOString();
+
+      saveStore(store);
+      closeEditModal();
+      render();
+    }
+
+    function cancelReceipt(id) {
+      const store = loadStore();
+      const day = getDay(store, selectedDateInput.value);
+      const found = findReceiptById(day, id);
+      if (!found) return;
+      const r = found.receipt;
+      if (!confirm(`Vuoi annullare lo scontrino da ${formatCurrency(r.amount)} (${r.category})?`)) return;
+
+      day.payments[found.category].total -= r.amount;
+      day.payments[found.category][r.method] -= r.amount;
+      day.payments[found.category].transactions -= 1;
+      day.payments[found.category].items -= r.items;
+      day.payments[found.category].receipts.splice(found.idx, 1);
+      day.updatedAt = new Date().toISOString();
+
+      saveStore(store);
+      render();
+    }
+
     function init() {
       const todayStr = formatDate(today);
       selectedDateInput.value = todayStr;
@@ -795,11 +1035,14 @@
       document.getElementById('btnIngressoDonna').addEventListener('click', () => incrementEntry('donna'));
       document.getElementById('btnPagamentoUomo').addEventListener('click', () => openPaymentModal('uomo'));
       document.getElementById('btnPagamentoDonna').addEventListener('click', () => openPaymentModal('donna'));
-
       document.getElementById('goSummaryBtn').addEventListener('click', () => showScreen('summary'));
+      document.getElementById('goHistoryBtn').addEventListener('click', () => showScreen('history'));
+      document.getElementById('goHistoryBtnHome').addEventListener('click', () => showScreen('history'));
       document.getElementById('backHomeBtn').addEventListener('click', () => showScreen('home'));
       document.getElementById('goChartsBtn').addEventListener('click', () => showScreen('charts'));
       document.getElementById('backSummaryBtn').addEventListener('click', () => showScreen('summary'));
+      document.getElementById('backSummaryFromHistoryBtn').addEventListener('click', () => showScreen('summary'));
+      document.getElementById('openHistoryBtnCharts').addEventListener('click', () => showScreen('history'));
       document.getElementById('endDayBtn').addEventListener('click', finishDay);
 
       document.getElementById('goToDateBtn').addEventListener('click', () => {
@@ -832,10 +1075,38 @@
         });
       });
 
+      editCardBtn.addEventListener('click', () => {
+        editMethod = 'card';
+        editCardBtn.classList.add('active');
+        editCashBtn.classList.remove('active');
+      });
+
+      editCashBtn.addEventListener('click', () => {
+        editMethod = 'cash';
+        editCashBtn.classList.add('active');
+        editCardBtn.classList.remove('active');
+      });
+
       savePaymentBtn.addEventListener('click', savePayment);
       closeModalBtn.addEventListener('click', closePaymentModal);
-      paymentModal.addEventListener('click', (e) => { if (e.target === paymentModal) closePaymentModal(); });
-      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePaymentModal(); });
+      paymentModal.addEventListener('click', e => { if (e.target === paymentModal) closePaymentModal(); });
+
+      document.getElementById('saveEditBtn').addEventListener('click', saveEditedReceipt);
+      cancelEditBtn.addEventListener('click', closeEditModal);
+      editModal.addEventListener('click', e => { if (e.target === editModal) closeEditModal(); });
+
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') { closePaymentModal(); closeEditModal(); }
+      });
+
+      historyList.addEventListener('click', e => {
+        const btn = e.target.closest('button');
+        if (!btn) return;
+        const id = btn.dataset.id;
+        const action = btn.dataset.action;
+        if (action === 'edit') openEditReceipt(id);
+        if (action === 'cancel') cancelReceipt(id);
+      });
 
       render();
     }
